@@ -15,7 +15,7 @@ configure({
     file: {
       type: 'file',
       filename: 'application.error.log',
-      layout
+      layout,
     },
   },
   categories: {
