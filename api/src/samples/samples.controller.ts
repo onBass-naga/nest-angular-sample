@@ -10,7 +10,8 @@ import {
   Controller,
 } from '@nestjs/common';
 import { Logger } from '../logger/logger.service';
-import { RouteParameters, QueryParameters, User } from './dto/samples.dto';
+import { RouteParameters, QueryParameters, UserDto } from './dto/samples.dto';
+import { User } from './decorators/user.decorator';
 
 @Controller('samples')
 export class SamplesController {
@@ -67,8 +68,16 @@ export class SamplesController {
   // }
   @Post('user')
   @HttpCode(HttpStatus.ACCEPTED)
-  dtoNested(@Body() user: User) {
+  dtoNested(@Body() user: UserDto) {
     this.logger.debug('dtoNested: ' + JSON.stringify(user));
+    return user;
+  }
+
+  // CustomDecoratorで変換
+  @Post('userWithDecorator')
+  @HttpCode(HttpStatus.ACCEPTED)
+  withDecorator(@User() user: UserDto) {
+    this.logger.debug('withDecorator: ' + JSON.stringify(user));
     return user;
   }
 

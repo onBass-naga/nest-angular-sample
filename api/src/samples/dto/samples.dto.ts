@@ -8,7 +8,7 @@ export class QueryParameters {
   readonly statuses: string[];
 }
 
-export class User {
+export class UserDto {
   readonly name: string;
   readonly contact: Contact;
 }

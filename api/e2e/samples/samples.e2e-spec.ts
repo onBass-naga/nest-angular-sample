@@ -81,6 +81,26 @@ describe('SamplesController (e2e)', () => {
       }, done);
   });
 
+  it('/samples/userWithDecorator (POST)', (done) => {
+    return request(app.getHttpServer())
+      .post('/samples/userWithDecorator')
+      .send(`{
+        "name": "Bugs Bunny",
+        "contact": {
+          "emails": ["foo@example.com", "bar@example.com"],
+          "phoneNumber": "0000-00-0000"
+        }
+      }`)
+      .set('Content-Type', 'application/json')
+      .expect(202, {
+        name: 'Bugs Bunny',
+        contact: {
+          emails: ['foo@example.com', 'bar@example.com'],
+          phoneNumber: '0000-00-0000',
+        },
+      }, done);
+  });
+
   it('/samples/header (POST)', (done) => {
     return request(app.getHttpServer())
       .post('/samples/header')
