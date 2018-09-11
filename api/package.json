@@ -16,16 +16,18 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./e2e/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "@nestjs/common": "^5.1.0",
     "@nestjs/core": "^5.1.0",
+    "@types/uuid": "^3.4.4",
     "log4js": "^3.0.5",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@nestjs/testing": "^5.1.0",
