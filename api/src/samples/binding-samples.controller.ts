@@ -10,11 +10,11 @@ import {
   Controller,
 } from '@nestjs/common';
 import { Logger } from '../logger/logger.service';
-import { RouteParameters, QueryParameters, UserDto } from './dto/samples.dto';
+import { RouteParameters, QueryParameters, UserDto } from './dto/binding-samples.dto';
 import { User } from './decorators/user.decorator';
 
 @Controller('samples')
-export class SamplesController {
+export class BindingSamplesController {
   constructor(private readonly logger: Logger) {}
 
   @Get()

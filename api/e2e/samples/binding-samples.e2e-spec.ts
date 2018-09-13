@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { SamplesModule } from './../../src/samples/samples.module';
 import { INestApplication } from '@nestjs/common';
 
-describe('SamplesController (e2e)', () => {
+describe('BindingSamplesController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
