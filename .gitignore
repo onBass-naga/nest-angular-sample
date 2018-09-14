@@ -63,3 +63,6 @@ typings/
 
 # MacOS
 .DS_Store
+
+# idea
+.idea
