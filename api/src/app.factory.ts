@@ -10,7 +10,7 @@ export async function initApp() {
   app.useLogger(app.get(Logger));
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
-    forbidNonWhitelisted: true
+    forbidNonWhitelisted: true,
   }));
   await app.listen(process.env.HTTP_PORT || 3000);
   return app;

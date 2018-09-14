@@ -3,67 +3,42 @@ import { Task } from './interfaces/task.interface';
 import { v4 as uuidV4 } from 'uuid';
 import { Logger } from '../logger/logger.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { TaskEntity } from './entities/task.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-  constructor(private readonly logger: Logger) {}
+  constructor(
+    @InjectRepository(TaskEntity)
+    private readonly tasksRepository: Repository<TaskEntity>,
+    private readonly logger: Logger,
+  ) {}
 
-  private readonly tasks: Task[] = [
-    {
-      id: '6a414c88-4613-486d-9990-80c1de52eea4',
-      overview: 'Learn TypeScript',
-      priority: 1,
-      deadLine: new Date('2018-09-10T08:55:28.087Z'),
-    },
-    {
-      id: 'd8a4132e-72ec-490c-b5f5-a8bbc4509be6',
-      overview: 'Learn Node.js',
-      priority: 2,
-      deadLine: new Date('2018-09-11T07:41:59.711Z'),
-    },
-  ];
-
-  findAll(): Promise<Task[]> {
-    return new Promise(resolve => {
-      resolve(this.tasks);
-    });
+  async findAll(): Promise<Task[]> {
+    const entities = await this.tasksRepository.find();
+    return entities as Task[];
   }
 
-  findById(id: string): Promise<Task | null> {
-    return new Promise(resolve => {
-      resolve(this.tasks.find(t => t.id === id));
-    });
+  async findById(id: string): Promise<Task | null> {
+    const entity = await this.tasksRepository.findOne({ id });
+    return entity as Task;
   }
 
-  create(dto: CreateTaskDto): Promise<Task> {
-    return new Promise(resolve => {
-      const id = uuidV4();
-      const task = { id, ...dto };
-      this.tasks.push(task as Task);
-      resolve(task);
-    });
+  async create(dto: CreateTaskDto): Promise<Task> {
+    const id = uuidV4();
+    const entity = {...dto, id} as TaskEntity;
+    await this.tasksRepository.insert(entity);
+    return entity;
   }
 
   async update(dto: UpdateTaskDto): Promise<Task> {
-    const saved = await this.findById(dto.id);
-    if (saved == null) {
-      throw new Error(`Task not found. [id: ${dto.id}]`);
-    }
-
-    const index = this.tasks.findIndex(t => t.id === saved.id);
-    this.tasks.splice(index, 1);
-    const task: Task = dto as Task;
-    this.tasks.push(task);
-    return task;
+    const entity = dto as TaskEntity;
+    await this.tasksRepository.update(entity.id, entity);
+    return entity;
   }
 
-  destroy(id: string): Promise<void> {
-    return new Promise(resolve => {
-      const index = this.tasks.findIndex(t => t.id === id);
-      if (!!index) {
-        this.tasks.splice(index, 1);
-      }
-      resolve();
-    });
+  async destroy(id: string): Promise<void> {
+    await this.tasksRepository.delete(id);
   }
 }
