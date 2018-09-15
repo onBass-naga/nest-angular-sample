@@ -3,14 +3,42 @@ import { TasksController } from './tasks.controller';
 import { Logger } from '../logger/logger.service';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { TaskEntity } from './entities/task.entity';
 
 describe('TasksController', () => {
   let app: TestingModule;
 
   beforeAll(async () => {
+
+    const tasks = [
+      {
+        id: '6a414c88-4613-486d-9990-80c1de52eea4',
+        overview: 'Learn TypeScript',
+        priority: 1,
+        deadLine: new Date('2018-09-10T08:55:28.087Z'),
+      },
+      {
+        id: 'd8a4132e-72ec-490c-b5f5-a8bbc4509be6',
+        overview: 'Learn Node.js',
+        priority: 2,
+        deadLine: new Date('2018-09-11T07:41:59.711Z'),
+      },
+    ];
+
+    const MockRepository = {
+      provide: getRepositoryToken(TaskEntity),
+      useValue: {
+        find: () => tasks,
+        insert: entity => tasks.push(entity),
+        update: (id, entity) => entity,
+        delete: () => tasks.splice(0, 1),
+      },
+    };
+
     app = await Test.createTestingModule({
       controllers: [TasksController],
-      providers: [Logger, TasksService],
+      providers: [Logger, TasksService, MockRepository],
     }).compile();
   });
 
@@ -28,7 +56,7 @@ describe('TasksController', () => {
       const param = {
         overview: 'Learn TypeScript',
         priority: 1,
-        deadLine: new Date('2018-09-10T08:55:28.087Z'),
+        deadline: new Date('2018-09-10T08:55:28.087Z'),
       } as CreateTaskDto;
       const actual = await sut.create(param);
       expect(actual.task.id).toBeDefined();
@@ -42,10 +70,10 @@ describe('TasksController', () => {
         id: '6a414c88-4613-486d-9990-80c1de52eea4',
         overview: 'Learn TypeScript',
         priority: 1,
-        deadLine: new Date('2018-10-10T08:55:28.087Z'),
+        deadline: new Date('2018-10-10T08:55:28.087Z'),
       } as UpdateTaskDto;
       const actual = await sut.update(param);
-      expect(actual.deadLine).toBe(param.deadLine);
+      expect(actual.deadline).toBe(param.deadline);
     });
 
     it('should throw exception when a task is not found', async () => {
@@ -54,7 +82,7 @@ describe('TasksController', () => {
         id: 'not-exist',
         overview: 'Learn TypeScript',
         priority: 1,
-        deadLine: new Date('2018-10-10T08:55:28.087Z'),
+        deadline: new Date('2018-10-10T08:55:28.087Z'),
       } as UpdateTaskDto;
 
       await sut.update(param).catch(error => {
