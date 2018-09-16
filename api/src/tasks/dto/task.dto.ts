@@ -13,13 +13,12 @@ export class CreateTaskDto {
 
   @IsString()
   @IsDefined()
-  readonly deadLine: Date;
+  readonly deadline: Date;
 }
 
 export class UpdateTaskDto {
   @IsString()
   @IsNotEmpty()
-  @IsUUID("4")
   readonly id: string;
 
   @IsString()
@@ -34,5 +33,5 @@ export class UpdateTaskDto {
 
   @IsString()
   @IsDefined()
-  readonly deadLine: Date;
+  readonly deadline: Date;
 }
