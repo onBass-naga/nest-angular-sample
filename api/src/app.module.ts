@@ -3,11 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
 import { LoggerModule } from './logger/logger.module';
 import { SamplesModule } from './samples/samples.module';
-import { dbConfig } from './db.config';
+import { TypeOrmConfig } from './config/typeorm.config';
+import { ConfigModule } from './config/config.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(dbConfig),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useExisting: TypeOrmConfig,
+    }),
     LoggerModule,
     TasksModule,
     SamplesModule,
