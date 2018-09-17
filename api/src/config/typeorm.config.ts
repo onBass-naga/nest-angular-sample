@@ -5,18 +5,18 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class TypeOrmConfig implements TypeOrmOptionsFactory {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly config: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: this.configService.get('DATABASE_HOST'),
+      host: this.config.typeOrm.host,
       port: 3306,
-      username: this.configService.get('DATABASE_USER'),
-      password: this.configService.get('DATABASE_PASSWORD'),
+      username: this.config.typeOrm.user,
+      password: this.config.typeOrm.password,
       database: 'test_db',
       entities: [TaskEntity],
-      synchronize: true,
+      synchronize: this.config.typeOrm.synchronize,
     };
   }
 }
