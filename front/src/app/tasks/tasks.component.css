@@ -1,0 +1,52 @@
+
+.container {
+  min-width: 450px;
+  max-width: 600px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+h1 {
+  margin: 0;
+}
+
+header {
+  margin-bottom: 6px;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  row-gap: 6px;
+}
+
+.task-item {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 8px;
+}
+
+.deadline {
+  font-size: 0.8em;
+}
+
+.overview {
+  font-size: 1.5em;
+}
+
+.delete-button {
+  float: right;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.add-button {
+  margin-top: 1px;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 0;
+}
