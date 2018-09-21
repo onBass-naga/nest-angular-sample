@@ -24,20 +24,23 @@ export class TasksController {
   @Get()
   async index() {
     const tasks = await this.tasksService.findAll();
-    return { tasks };
+    tasks.sort((a, b) => {
+      return a.deadline.getTime() - b.deadline.getTime();
+    });
+    return tasks;
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body('task') dto: CreateTaskDto) {
+  async create(@Body() dto: CreateTaskDto) {
     this.logger.debug('create: ' + JSON.stringify(dto));
 
     const created = await this.tasksService.create(dto);
-    return { task: created };
+    return created;
   }
 
   @Put()
-  async update(@Body('task') dto: UpdateTaskDto) {
+  async update(@Body() dto: UpdateTaskDto) {
     this.logger.debug('update: ' + JSON.stringify(dto));
 
     return await this.tasksService.update(dto).catch(error => {

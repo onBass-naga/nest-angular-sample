@@ -16,13 +16,13 @@ describe('TasksController', () => {
         id: '6a414c88-4613-486d-9990-80c1de52eea4',
         overview: 'Learn TypeScript',
         priority: 1,
-        deadLine: new Date('2018-09-10T08:55:28.087Z'),
+        deadline: new Date('2018-09-10T08:55:28.087Z'),
       },
       {
         id: 'd8a4132e-72ec-490c-b5f5-a8bbc4509be6',
         overview: 'Learn Node.js',
         priority: 2,
-        deadLine: new Date('2018-09-11T07:41:59.711Z'),
+        deadline: new Date('2018-09-11T07:41:59.711Z'),
       },
     ];
 
@@ -46,7 +46,7 @@ describe('TasksController', () => {
     it('should return 2 tasks', async () => {
       const sut = app.get<TasksController>(TasksController);
       const actual = await sut.index();
-      expect(actual.tasks).toHaveLength(2);
+      expect(actual).toHaveLength(2);
     });
   });
 
@@ -59,7 +59,7 @@ describe('TasksController', () => {
         deadline: new Date('2018-09-10T08:55:28.087Z'),
       } as CreateTaskDto;
       const actual = await sut.create(param);
-      expect(actual.task.id).toBeDefined();
+      expect(actual.id).toBeDefined();
     });
   });
 
@@ -95,10 +95,10 @@ describe('TasksController', () => {
     it('should delete a task', async () => {
       const sut = app.get<TasksController>(TasksController);
       const targetId = '6a414c88-4613-486d-9990-80c1de52eea4';
-      const beforeSize = (await sut.index()).tasks.length;
+      const beforeSize = (await sut.index()).length;
       await sut.destroy(targetId);
 
-      const afterSize = (await sut.index()).tasks.length;
+      const afterSize = (await sut.index()).length;
       expect(beforeSize).toBe(afterSize + 1);
     });
   });

@@ -1,0 +1,23 @@
+<div class="container">
+  <header>
+    <h1>Task List</h1>
+  </header>
+  <div>
+    <ul class="task-list">
+      <li class="task-item" *ngFor="let task of tasks">
+        <div class="deadline">{{task.deadline | dateFormat: 'YYYY-MM-DD HH:mm'}}</div>
+        <div class="overview">{{task.overview}}</div>
+        <button class="delete-button" (click)="delete(task.id);">delete</button>
+      </li>
+    </ul>
+  </div>
+  <div class="form">
+    <div class="overview-box-wrapper">
+      <input type="text" placeholder="overview" #overview/>
+    </div>
+    <ng2-flatpickr [config]="options" placeholder="deadline"></ng2-flatpickr>
+    <button class="add-button" (click)="add(overview.value);">
+      add
+    </button>
+  </div>
+</div>

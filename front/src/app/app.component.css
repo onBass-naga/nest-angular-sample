@@ -1,0 +1,11 @@
+
+.container {
+  display: grid;
+  grid-template-rows: 60px 1fr;
+}
+
+.main {
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+}
