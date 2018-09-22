@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Task } from './task';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -12,7 +13,7 @@ const httpOptions = {
 
 @Injectable()
 export class TasksService {
-  url = 'api/tasks';
+  url = `${environment.apiBaseUrl}/tasks`;
   constructor(private readonly http: HttpClient) { }
 
   findTasks(): Observable<Task[]> {
