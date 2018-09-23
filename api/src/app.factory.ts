@@ -6,6 +6,7 @@ import { Logger } from './logger/logger.service';
 export async function initApp() {
   const app = await NestFactory.create(AppModule, {
     logger: false,
+    cors: true,
   });
   app.useLogger(app.get(Logger));
   app.useGlobalPipes(new ValidationPipe({
