@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { TasksService } from './tasks.service';
 import { Task } from './task';
 import { FlatpickrOptions } from 'ng2-flatpickr';
@@ -13,6 +15,7 @@ import Japanese from 'flatpickr/dist/l10n/ja.js';
 export class TasksComponent implements OnInit {
   tasks: Task[];
   deadline: Date;
+  isBrowser: Boolean = false;
 
   options: FlatpickrOptions = {
     locale: Japanese,
@@ -21,7 +24,12 @@ export class TasksComponent implements OnInit {
     onClose: this.onClose.bind(this),
   };
 
-  constructor(private readonly tasksService: TasksService) {}
+  constructor(
+    private readonly tasksService: TasksService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+      this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit() {
     this.getTasks();

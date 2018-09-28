@@ -15,7 +15,7 @@
     <div class="overview-box-wrapper">
       <input type="text" placeholder="overview" #overview/>
     </div>
-    <ng2-flatpickr [config]="options" placeholder="deadline"></ng2-flatpickr>
+    <ng2-flatpickr *ngIf="isBrowser" [config]="options" placeholder="deadline"></ng2-flatpickr>
     <button class="add-button" (click)="add(overview.value);">
       add
     </button>

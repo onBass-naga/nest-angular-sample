@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 FRONT_PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-TARGET_FILE_PATH=$(find dist/* -name main*.js)
+TARGET_FILE_PATH=$(find dist/browser/* -name main*.js)
 
 echo "-- file ---------------------------------------"
 echo $TARGET_FILE_PATH
